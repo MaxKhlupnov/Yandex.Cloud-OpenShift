@@ -2,16 +2,22 @@ variable "public_key_path" {
   description = "Path to public key file"
 }
 
-variable "token" {
+variable "yc_oauth_token" {
   description = "Yandex Cloud security OAuth token"
+  default     = ""
+  type        = string
 }
 
-variable "folder_id" {
+variable "yc_folder_id" {
   description = "Yandex Cloud Folder ID where resources will be created"
+  default     = ""
+  type        = string
 }
 
-variable "cloud_id" {
+variable "yc_cloud_id" {
   description = "Yandex Cloud ID where resources will be created"
+  default     = ""
+  type        = string
 }
 
 
@@ -34,7 +40,7 @@ variable "okd_image_family" {
 
 variable "okd_cidr_subnets" {
   description = "CIDR Blocks for private subnets in Availability Zones"
-  type = "list"
+  type = list(string)
 }
 
 
@@ -67,7 +73,7 @@ variable "okd_kube_worker_ram" {
 }
 
 variable "okd_availability_zones" {
-  type    = "list"
+  type    = list(string)
   default = ["ru-central1-a", "ru-central1-b", "ru-central1-c"]
 }
 

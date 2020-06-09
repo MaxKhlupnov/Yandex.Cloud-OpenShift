@@ -1,67 +1,55 @@
 terraform {
-    required_version = ">= 0.8.7"
+    required_version = ">= 0.12.24"
 }
 
 provider "yandex" {
-  token     = "${var.token}"
-  cloud_id  = "${var.cloud_id}"
-  folder_id = "${var.folder_id}"
-  endpoint  = "api.cloud-preprod.yandex.net:443"
+  version = "~> 0.40"
+  token     = var.yc_oauth_token
+  cloud_id  = var.yc_cloud_id
+  folder_id = var.yc_folder_id
+#  endpoint  = "api.cloud-preprod.yandex.net:443"
 }
 
 resource "yandex_vpc_network" "vpc" {
-  name           = "data-svc-network" # TODO: change the name
+  name           = "openshift-vpc" 
 }
 
 resource "yandex_vpc_subnet" "subnet" {
- count="${length(var.yc_cidr_subnets)}"
- name = "${var.yc_project_name}-${var.yc_cluster_name}-subnet-${count.index}"
- zone = "${element(var.yc_availability_zones, count.index)}"
- network_id     = "${yandex_vpc_network.vpc.id}"
- v4_cidr_blocks = ["${element(var.yc_cidr_subnets, count.index)}"]
+ count= length(var.okd_cidr_subnets)
+ name = "${var.okd_project_name}-${var.okd_cluster_name}-subnet-${count.index}"
+ zone = element(var.okd_availability_zones, count.index)
+ network_id     = yandex_vpc_network.vpc.id
+ v4_cidr_blocks = [element(var.okd_cidr_subnets, count.index)]
 }
 
 
-locals {
+/*locals {
   subnet_ids = ["${yandex_vpc_subnet.subnet.*.id}"]
-}
+}*/
+
+
 
 data "yandex_compute_image" "base_image" {
-  family = "${var.yc_image_family}"
+  family = "${var.okd_image_family}"
 }
 
-resource "yandex_compute_instance" "master" {
 
-    count       = "${var.yc_kube_master_num}"
 
-    name        = "k8s-master-${count.index}"
-    hostname    = "k8s-master-${count.index}"
-    description = "k8s-master-${count.index} of the ${var.yc_project_name} ${var.yc_cluster_name} cluster"
-    zone = "${element(var.yc_availability_zones, count.index)}"
 
-    resources {
-      cores  = "${var.yc_kube_master_cpu}"
-      memory = "${var.yc_kube_master_ram}"
+
+/*
+* Create Inventory File
+*
+
+data "template_file" "inventory" {
+    template = "${file("${path.module}/templates/inventory.tpl")}"
+    vars = {
+        #public_ip_address_bastion = "${join("\n",formatlist("bastion ansible_host=%s" , okd_instance.bastion-server.*.public_ip))}"
+        connection_strings_master = "${join("\n",formatlist("%s openshift_node_group_name='node-config-master'",yandex_compute_instance.master.*.name))}"
+        connection_strings_node = "${join("\n", formatlist("%s openshift_node_group_name='node-config-compute'", yandex_compute_instance.worker.*.name))}"
+        list_master = "${join("\n",yandex_compute_instance.master.*.name)}"
+        list_node = "${join("\n",yandex_compute_instance.worker.*.name)}"
+        list_etcd = "${join("\n",yandex_compute_instance.master.*.name)}"
     }
 
-    boot_disk {
-      initialize_params {
-        image_id = "${data.yandex_compute_image.base_image.id}"
-        #snapshot_id = "${data.yandex_compute_snapshot.kubeadm.id}"
-        type_id = "network-nvme"
-        size = "30"
-      }
-    }
-
-
-    network_interface {
-      subnet_id = "${element(local.subnet_ids, count.index)}"
-      nat       = true
-    }
-
-    metadata {
-      ssh-keys  = "centos:${file("${var.public_key_path}")}"
-    ##  user-data = "${data.template_file.cloud-init.rendered}"
-    }
-
-}
+}*/
