@@ -19,16 +19,18 @@ openshift_deployment_type=origin
 
 # host group for masters
 [masters]
-master.example.com
+${list_master}
 
 # host group for etcd
 [etcd]
-master.example.com
+${list_etcd}
 
 # host group for nodes, includes region info
 [nodes]
-master.example.com openshift_node_group_name='node-config-master'
-node1.example.com openshift_node_group_name='node-config-compute'
-node2.example.com openshift_node_group_name='node-config-compute'
-infra-node1.example.com openshift_node_group_name='node-config-infra'
-infra-node2.example.com openshift_node_group_name='node-config-infra'
+${connection_strings_master}
+${connection_strings_node}
+#master.example.com openshift_node_group_name='node-config-master'
+#node1.example.com openshift_node_group_name='node-config-compute'
+#node2.example.com openshift_node_group_name='node-config-compute'
+#infra-node1.example.com openshift_node_group_name='node-config-infra'
+#infra-node2.example.com openshift_node_group_name='node-config-infra'
