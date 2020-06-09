@@ -1,3 +1,12 @@
+
+ resource  "yandex_compute_disk" "master_docker_storage_disk" {
+         count       = var.okd_kube_master_num
+         name = "k8s-master-${count.index}-docker-storage-disk"
+         size = 128
+         type = "network-ssd"
+         zone = element(var.okd_availability_zones, count.index)
+}
+
 resource "yandex_compute_instance" "master" {
 
     count       = var.okd_kube_master_num
@@ -17,10 +26,18 @@ resource "yandex_compute_instance" "master" {
         image_id = data.yandex_compute_image.base_image.id
         #snapshot_id = "${data.yandex_compute_snapshot.kubeadm.id}"
         # type_id = "network-nvme"
-        size = "30"
+        size = "32"
       }
     }
 
+ 
+  # Storage for Docker, see:
+  # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
+    secondary_disk {
+            auto_delete = true
+            device_name = "sdf"
+            disk_id = element(yandex_compute_disk.master_docker_storage_disk, count.index).id
+  }
 
     network_interface {
       subnet_id = element(yandex_vpc_subnet.subnet, count.index).id
