@@ -1,5 +1,5 @@
 # Yandex.Cloud OpenShift
-Distribution deployment of <a href='https://docs.okd.io/'>OKD</a> - the upstream code base upon which Red Hat OpenShift Online and Red Hat OpenShift Container Platform are built in Yandex Cloud
+Deployment of <a href='https://docs.okd.io/'>OKD</a> - the upstream code base upon which Red Hat OpenShift Online and Red Hat OpenShift Container Platform are built into Yandex Cloud
 
 Для работы примера нужно:
 <ol>
