@@ -1,12 +1,10 @@
-# Yandex.Cloud-OpenShift
-Terraform template for installation Terraform in Yandex Cloud
+# Yandex.Cloud OpenShift
+Distribution deployment of <a href='https://docs.okd.io/'>OKD</a> - the upstream code base upon which Red Hat OpenShift Online and Red Hat OpenShift Container Platform are built in Yandex Cloud
 
-# Yandex.Cloud-OpenShift
-Terraform template for installation Terraform in Yandex Cloud
 Для работы примера нужно:
 <ol>
   <li>Перейти в папку "terraform" и переименовать файл terraform.example.tfvars в terraform.tfvars</li>
-  <li>В файле terraform.tfvars перереопределить переменные yc_cloud_id, yc_folder_id, yc_main_zone в соотв. с настройками Вашего тенанта.</li>
+  <li>В файле terraform.tfvars перереопределить переменные yc_cloud_id, yc_folder_id в соотв. с настройками Вашего тенанта.</li>
 <li>Выполнить инициализацию с помощью команды:
 <pre><code>$ terraform init
 </code></pre>
