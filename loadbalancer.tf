@@ -10,7 +10,7 @@ locals {
 }
 
 resource "yandex_lb_target_group" "okd_master_target" {
- name      = "lb-grp-mgmt-8443"
+ name      = "lb-target-group-mgmt"
  dynamic "target" {
     for_each = local.master_mapping
     content{
@@ -21,4 +21,27 @@ resource "yandex_lb_target_group" "okd_master_target" {
  }
 }
  
-  
+resource "yandex_lb_network_load_balancer" "okd_master_lb" {
+  name = "mgmt-load-balancer"
+
+  listener {
+    name = "listener-mgmt-8443"
+    port = 8443
+    protocol = "tcp"
+    external_address_spec {
+      ip_version = "ipv4"
+    }
+  }
+
+  attached_target_group {
+    target_group_id = yandex_lb_target_group.okd_master_target.id
+
+    healthcheck {
+      name = "tcp-check"
+      http_options {
+        port = 8443
+        path = "/"
+      }
+    }
+  }
+}  
