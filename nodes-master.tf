@@ -24,6 +24,7 @@ resource "yandex_compute_instance" "master" {
     boot_disk {
       initialize_params {
         image_id = data.yandex_compute_image.base_image.id
+        type = "network-ssd"
         #snapshot_id = "${data.yandex_compute_snapshot.kubeadm.id}"
         # type_id = "network-nvme"
         size = "32"
@@ -41,7 +42,7 @@ resource "yandex_compute_instance" "master" {
 
     network_interface {
       subnet_id = element(yandex_vpc_subnet.subnet, count.index).id
-      nat       = true
+      nat       = false
     }
 
     metadata = {

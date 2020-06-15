@@ -44,11 +44,17 @@ variable "okd_cidr_subnets" {
 }
 
 
-//yc EC2 Settings
-
+/**
+  Bastion VM configuration variables
+*/
+variable "okd_bastion_cpu" {
+    description = "Number CPU cores"
+}
+variable "okd_bastion_ram" {
+    description = "Node RAM size"
+}
 
 /*
-* yc EC2 Settings
 * The number should be divisable by the number of used
 * yc Availability Zones without an remainder.
 */
@@ -56,20 +62,30 @@ variable "okd_kube_master_num" {
     description = "Number of Kubernetes Master Nodes"
 }
 variable "okd_kube_master_cpu" {
-    description = "Number of Kubernetes Master Nodes"
+    description = "Number CPU cores"
 }
 variable "okd_kube_master_ram" {
-    description = "Number of Kubernetes Master Nodes"
+    description = "Node RAM size"
+}
+
+variable "okd_kube_infra_num" {
+    description = "Number of Kubernetes Infrastructure Nodes"
+}
+variable "okd_kube_infra_cpu" {
+    description = "Number CPU cores"
+}
+variable "okd_kube_infra_ram" {
+    description = "Node RAM size"
 }
 
 variable "okd_kube_worker_num" {
     description = "Number of Kubernetes Master Nodes"
 }
 variable "okd_kube_worker_cpu" {
-    description = "Number of Kubernetes Master Nodes"
+    description = "Number CPU cores"
 }
 variable "okd_kube_worker_ram" {
-    description = "Number of Kubernetes Master Nodes"
+    description = "Node RAM size"
 }
 
 variable "okd_availability_zones" {
@@ -77,13 +93,14 @@ variable "okd_availability_zones" {
   default = ["ru-central1-a", "ru-central1-b", "ru-central1-c"]
 }
 
+variable "openshift_master_cluster_public_hostname" {
+  description = "Public cluster master lb DNS-name"
+}
 
 /*
 * yc ELB Settings
 *
 */
-
-
 variable "k8s_secure_api_port" {
     description = "Secure Port of K8S API Server"
 }
