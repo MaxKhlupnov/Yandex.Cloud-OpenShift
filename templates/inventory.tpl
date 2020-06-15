@@ -4,7 +4,6 @@
 masters
 nodes
 etcd
-lb
 
 # Set variables common for all OSEv3 hosts
 [OSEv3:vars]
