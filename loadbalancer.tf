@@ -18,7 +18,7 @@ locals {
 ################################################################
 # PUBLIC target group and load balancer for MASTER nodes
 ################################################################
-resource "yandex_lb_target_group" "okd_master_public_target" {
+resource "yandex_lb_target_group" "okd_master_target" {
  name      = "lb-target-group-mgmt-public"
  dynamic "target" {
     for_each = local.master_mapping
@@ -36,7 +36,7 @@ resource "yandex_lb_network_load_balancer" "okd_master_public_lb" {
 
   listener {
     name = "listener-mgmt-8443"
-    port = 8443
+    port = 9443
     protocol = "tcp"
     external_address_spec {
       ip_version = "ipv4"
@@ -44,12 +44,12 @@ resource "yandex_lb_network_load_balancer" "okd_master_public_lb" {
   }
 
   attached_target_group {
-    target_group_id = yandex_lb_target_group.okd_master_public_target.id
+    target_group_id = yandex_lb_target_group.okd_master_target.id
 
     healthcheck {
       name = "tcp-check"
       http_options {
-        port = 8443
+        port = 9443 # port nu,ber changed from defaul 8443 - we can't connect multiple load balancer to the same port for the same target
         path = "/"
       }
     }
@@ -60,18 +60,6 @@ resource "yandex_lb_network_load_balancer" "okd_master_public_lb" {
 ################################################################
 # INTERNAL target group and load balancer for MASTER nodes
 ################################################################
-resource "yandex_lb_target_group" "okd_master_internal_target" {
- name      = "lb-target-group-mgmt-internal"
- dynamic "target" {
-    for_each = local.master_mapping
-    content{
-      address = target.value.ip_address
-      subnet_id = target.value.subnet_id 
-  
-    }
- }
-}
-
 resource "yandex_lb_network_load_balancer" "okd_master_internal_lb" {
   name = "mgmt-intgernal-load-balancer"
   type = "internal"
@@ -87,7 +75,7 @@ resource "yandex_lb_network_load_balancer" "okd_master_internal_lb" {
   }
 
   attached_target_group {
-    target_group_id = yandex_lb_target_group.okd_master_internal_target.id
+    target_group_id = yandex_lb_target_group.okd_master_target.id
 
     healthcheck {
       name = "tcp-check"
@@ -115,7 +103,7 @@ resource "yandex_lb_target_group" "okd_infra_internal_target" {
 }
 
 resource "yandex_lb_network_load_balancer" "okd_infra_internal_lb" {
-  name = "infra-intgernal-load-balancer"
+  name = "infra-internal-load-balancer"
   type = "internal"
 
   listener {
