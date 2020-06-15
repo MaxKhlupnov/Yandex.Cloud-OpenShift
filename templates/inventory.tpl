@@ -15,14 +15,13 @@ openshift_deployment_type=origin
 #openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 
 # Native high availbility cluster method with Yandex Cloud load balancer.
-# If no lb group is defined installer assumes that a load balancer has
+# Don't need lb group is defined installer assumes that a load balancer has
 # been preconfigured. For installation the value of
-# openshift_master_cluster_hostname must resolve to the load balancer
-# or to one or all of the masters defined in the inventory if no load
-# balancer is present.
+# openshift_master_cluster_hostname must resolved to the Yandex Cloud load balancer
+
 openshift_master_cluster_method=native
-openshift_master_cluster_hostname=openshift-internal.example.com
-openshift_master_cluster_public_hostname=openshift-cluster.example.com
+openshift_master_cluster_hostname=${openshift_master_cluster_hostname}
+openshift_master_cluster_public_hostname=${openshift_master_cluster_public_hostname}
 
 # apply updated node defaults
 openshift_node_groups=[{'name': 'node-config-all-in-one', 'labels': ['node-role.kubernetes.io/master=true', 'node-role.kubernetes.io/infra=true', 'node-role.kubernetes.io/compute=true'], 'edits': [{ 'key': 'kubeletArguments.pods-per-core','value': ['20']}]}]
@@ -35,15 +34,12 @@ ${list_master}
 [etcd]
 ${list_etcd}
 
-# Specify load balancer host
-[lb]
-lb.example.com
-
 
 # host group for nodes, includes region info
 [nodes]
 ${connection_strings_master}
-${connection_strings_node}
+${connection_strings_worker}
+${connection_strings_infra}
 #master.example.com openshift_node_group_name='node-config-master'
 #node1.example.com openshift_node_group_name='node-config-compute'
 #node2.example.com openshift_node_group_name='node-config-compute'
