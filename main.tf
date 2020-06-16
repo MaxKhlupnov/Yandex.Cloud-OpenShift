@@ -20,6 +20,7 @@ resource "yandex_vpc_subnet" "subnet" {
  zone = element(var.okd_availability_zones, count.index)
  network_id     = yandex_vpc_network.vpc.id
  v4_cidr_blocks = [element(var.okd_cidr_subnets, count.index)]
+ # nat = true
 }
 
 data "yandex_compute_image" "base_image" {

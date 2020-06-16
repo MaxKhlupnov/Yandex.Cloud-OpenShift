@@ -7,8 +7,13 @@ etcd
 
 # Set variables common for all OSEv3 hosts
 [OSEv3:vars]
-ansible_ssh_user=root
+ansible_ssh_user=centos
+ansible_become=yes
+openshift_install_examples=true
 openshift_deployment_type=origin
+docker_udev_workaround=True
+openshift_use_dnsmasq=True
+os_firewall_use_firewalld=True
 
 # uncomment the following to enable htpasswd authentication; defaults to AllowAllPasswordIdentityProvider
 #openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
@@ -21,9 +26,6 @@ openshift_deployment_type=origin
 openshift_master_cluster_method=native
 openshift_master_cluster_hostname=${openshift_master_cluster_hostname}
 openshift_master_cluster_public_hostname=${openshift_master_cluster_public_hostname}
-
-# apply updated node defaults
-openshift_node_groups=[{'name': 'node-config-all-in-one', 'labels': ['node-role.kubernetes.io/master=true', 'node-role.kubernetes.io/infra=true', 'node-role.kubernetes.io/compute=true'], 'edits': [{ 'key': 'kubeletArguments.pods-per-core','value': ['20']}]}]
 
 # host group for masters
 [masters]

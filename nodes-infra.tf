@@ -36,7 +36,7 @@ resource "yandex_compute_instance" "infra" {
   # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
     secondary_disk {
         auto_delete = true
-        device_name = "sdf"
+        device_name = "vdb"
         disk_id = element(yandex_compute_disk.infra_docker_storage_disk, count.index).id
 }
 
