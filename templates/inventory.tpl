@@ -14,6 +14,7 @@ openshift_deployment_type=origin
 docker_udev_workaround=True
 openshift_use_dnsmasq=True
 os_firewall_use_firewalld=True
+openshift_disable_check=memory_availability # because memory setting less then required 8gb and 16gb
 
 # uncomment the following to enable htpasswd authentication; defaults to AllowAllPasswordIdentityProvider
 #openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
