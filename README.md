@@ -25,3 +25,4 @@ Deployment of <a href='https://docs.okd.io/'>OKD</a> - the upstream code base up
 </li>
 <li>Подтвердить создание ресурсов.</li>
 </ol>
+<h4><a href='https://youtu.be/8g2bDcHU4rU'>Видео с процессом создания кластера</a></h4>
