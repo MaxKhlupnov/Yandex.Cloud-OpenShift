@@ -1,6 +1,7 @@
 # Yandex.Cloud OpenShift
 Deployment of <a href='https://docs.okd.io/'>OKD</a> - the upstream code base upon which Red Hat OpenShift Online and Red Hat OpenShift Container Platform are built into Yandex Cloud
 
+<h4><a href='https://youtu.be/8g2bDcHU4rU'>Видео с процессом создания кластера</a></h4>
 Для работы примера нужно:
 <ol>
   <li>Перейти в папку "terraform" и переименовать файл terraform.example.tfvars в terraform.tfvars</li>
@@ -25,4 +26,3 @@ Deployment of <a href='https://docs.okd.io/'>OKD</a> - the upstream code base up
 </li>
 <li>Подтвердить создание ресурсов.</li>
 </ol>
-<h4><a href='https://youtu.be/8g2bDcHU4rU'>Видео с процессом создания кластера</a></h4>
