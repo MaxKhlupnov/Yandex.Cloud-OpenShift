@@ -1,6 +1,6 @@
 
  resource  "yandex_compute_disk" "worker_docker_storage_disk" {
-         count       = var.okd_kube_master_num
+         count       = var.okd_kube_worker_num
          name = "k8s-worker-${count.index}-docker-storage-disk"
          size = 128
          type = "network-ssd"
@@ -32,8 +32,8 @@ resource "yandex_compute_instance" "worker" {
         size = "32"
       }
     }
-    
-     
+
+
   # Storage for Docker, see:
   # https://docs.openshift.org/latest/install_config/install/host_preparation.html#configuring-docker-storage
     secondary_disk {
